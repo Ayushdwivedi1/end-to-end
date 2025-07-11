@@ -32,6 +32,13 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ex.getMessage()));
     }
     
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ApiResponse<String>> handleAuthException(AuthException ex) {
+        log.info("Handling AuthException: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(ex.getMessage()));
+    }
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         log.info("Handling validation exception with {} field errors", ex.getBindingResult().getFieldErrorCount());
