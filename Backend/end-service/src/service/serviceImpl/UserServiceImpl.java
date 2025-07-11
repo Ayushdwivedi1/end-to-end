@@ -1,6 +1,7 @@
 package service.serviceImpl;
 
 import com.ayush.end_to_end.dto.UserDto;
+import com.ayush.end_to_end.dto.UserUpdateDto;
 import com.ayush.end_to_end.entity.User;
 import com.ayush.end_to_end.exception.UserAlreadyExistsException;
 import com.ayush.end_to_end.exception.UserNotFoundException;
@@ -98,7 +99,7 @@ public class UserServiceImpl implements service.UserService {
     }
     
     @Override
-    public UserDto updateUser(Long id, UserDto userDto) {
+    public UserDto updateUser(Long id, UserUpdateDto userUpdateDto) {
         log.info("Starting user update process for ID: {}", id);
         
         User existingUser = userRepository.findActiveUserById(id)
@@ -110,20 +111,30 @@ public class UserServiceImpl implements service.UserService {
         log.info("Found existing user for update - ID: {}, current email: {}", id, existingUser.getEmail());
         
         // Check if email is being changed and if it already exists
-        if (!existingUser.getEmail().equals(userDto.getEmail()) && 
-            userRepository.existsByEmailAndIdNot(userDto.getEmail(), id)) {
-            log.info("User update failed - new email already exists: {}", userDto.getEmail());
-            throw new UserAlreadyExistsException(userDto.getEmail());
+        if (userUpdateDto.getEmail() != null && !existingUser.getEmail().equals(userUpdateDto.getEmail()) && 
+            userRepository.existsByEmailAndIdNot(userUpdateDto.getEmail(), id)) {
+            log.info("User update failed - new email already exists: {}", userUpdateDto.getEmail());
+            throw new UserAlreadyExistsException(userUpdateDto.getEmail());
         }
         
         log.info("Email validation passed, proceeding with user update");
         
-        // Update fields
-        existingUser.setFirstName(userDto.getFirstName());
-        existingUser.setLastName(userDto.getLastName());
-        existingUser.setEmail(userDto.getEmail());
-        existingUser.setPhoneNumber(userDto.getPhoneNumber());
-        existingUser.setAddress(userDto.getAddress());
+        // Update fields only if they are not null (partial update)
+        if (userUpdateDto.getFirstName() != null) {
+            existingUser.setFirstName(userUpdateDto.getFirstName());
+        }
+        if (userUpdateDto.getLastName() != null) {
+            existingUser.setLastName(userUpdateDto.getLastName());
+        }
+        if (userUpdateDto.getEmail() != null) {
+            existingUser.setEmail(userUpdateDto.getEmail());
+        }
+        if (userUpdateDto.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(userUpdateDto.getPhoneNumber());
+        }
+        if (userUpdateDto.getAddress() != null) {
+            existingUser.setAddress(userUpdateDto.getAddress());
+        }
         
         User updatedUser = userRepository.save(existingUser);
         log.info("User updated successfully - ID: {}, email: {}", updatedUser.getId(), updatedUser.getEmail());

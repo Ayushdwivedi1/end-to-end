@@ -2,6 +2,7 @@ package rest.impl;
 
 import com.ayush.end_to_end.dto.ApiResponse;
 import com.ayush.end_to_end.dto.UserDto;
+import com.ayush.end_to_end.dto.UserUpdateDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,9 +76,9 @@ public class UserRestImpl implements UserRest {
     }
     
     @Override
-    public ResponseEntity<ApiResponse<UserDto>> updateUser(Long id, UserDto userDto) {
+    public ResponseEntity<ApiResponse<UserDto>> updateUser(Long id, UserUpdateDto userUpdateDto) {
         log.info("Updating user with ID: {}", id);
-        UserDto updatedUser = userService.updateUser(id, userDto);
+        UserDto updatedUser = userService.updateUser(id, userUpdateDto);
         log.info("User updated successfully for ID: {}", id);
         return ResponseEntity.ok(ApiResponse.success("User updated successfully", updatedUser));
     }

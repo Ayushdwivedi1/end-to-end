@@ -2,6 +2,7 @@ package userRest;
 
 import com.ayush.end_to_end.dto.ApiResponse;
 import com.ayush.end_to_end.dto.UserDto;
+import com.ayush.end_to_end.dto.UserUpdateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public interface UserRest {
     ResponseEntity<ApiResponse<List<UserDto>>> searchUsersByName(@RequestParam String name);
     
     @PutMapping("/users/{id}")
-    ResponseEntity<ApiResponse<UserDto>> updateUser(@PathVariable Long id, @RequestBody UserDto userDto);
+    ResponseEntity<ApiResponse<UserDto>> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto userUpdateDto);
     
     @DeleteMapping("/users/{id}")
     ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable Long id);

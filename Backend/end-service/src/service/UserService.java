@@ -1,6 +1,7 @@
 package service;
 
 import com.ayush.end_to_end.dto.UserDto;
+import com.ayush.end_to_end.dto.UserUpdateDto;
 import java.util.List;
 
 public interface UserService {
@@ -17,7 +18,7 @@ public interface UserService {
     
     List<UserDto> searchUsersByName(String name);
     
-    UserDto updateUser(Long id, UserDto userDto);
+    UserDto updateUser(Long id, UserUpdateDto userUpdateDto);
     
     void deleteUser(Long id);
     
