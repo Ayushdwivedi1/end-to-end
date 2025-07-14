@@ -1,0 +1,167 @@
+<div class="ai-container">
+  <div class="container">
+  <div class="row">
+    <div class="col-12">
+        <div class="ai-card">
+          <div class="card-header-ai d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+              <i class="bi bi-people-fill me-2"></i>
+              AI User Management
+            </h4>
+          <div class="d-flex gap-2">
+              <button class="btn-ai-outline" routerLink="/dashboard">
+                <i class="bi bi-house-door"></i> Dashboard
+              </button>
+              <button class="btn-success-ai" routerLink="/users/create">
+                <i class="bi bi-robot"></i> AI Create User
+            </button>
+              <button class="btn-warning-ai" routerLink="/change-password">
+                <i class="bi bi-shield-check"></i> Neural Security
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          
+          <!-- Search and Filter Controls -->
+            <div class="search-controls">
+              <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <input 
+                  type="text" 
+                      class="form-control-ai" 
+                  placeholder="Search users by name..."
+                  [(ngModel)]="searchTerm"
+                  (keyup.enter)="searchUsers()">
+                <button 
+                      class="btn-ai" 
+                  type="button"
+                  (click)="searchUsers()">
+                  <i class="bi bi-search"></i> Search
+                </button>
+                <button 
+                      class="btn-ai" 
+                  type="button"
+                  (click)="clearSearch()"
+                  *ngIf="searchTerm">
+                  <i class="bi bi-x-circle"></i> Clear
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6 text-end">
+              <div class="form-check form-switch d-inline-block">
+                <input 
+                      class="form-check-input-ai" 
+                  type="checkbox" 
+                  id="activeFilter"
+                  [(ngModel)]="showActiveOnly"
+                  (change)="toggleActiveFilter()">
+                    <label class="form-check-label-ai" for="activeFilter">
+                  Show Active Users Only
+                </label>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+            <div class="alert-ai alert-danger-ai" *ngIf="errorMessage">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+          </div>
+
+          <!-- Loading Spinner -->
+          <div class="text-center" *ngIf="loading">
+              <div class="spinner-border spinner-ai" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Users Table -->
+          <div class="table-responsive" *ngIf="!loading">
+              <table class="table table-ai">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users">
+                  <td>{{ user.id }}</td>
+                  <td>
+                    <a href="javascript:void(0)" 
+                       (click)="viewUser(user.id!)" 
+                         class="user-name-link"
+                       style="cursor: pointer;">
+                      {{ user.firstName }} {{ user.lastName }}
+                    </a>
+                  </td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.phoneNumber }}</td>
+                  <td>{{ user.address || 'N/A' }}</td>
+                  <td>
+                    <span 
+                        class="badge-ai"
+                        [class]="user.isActive ? 'badge-success-ai' : 'badge-danger-ai'">
+                      {{ user.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                  </td>
+                  <td>{{ user.createdAt | date:'short' }}</td>
+                  <td>
+                      <div class="btn-group btn-group-ai" role="group">
+                      <button 
+                          class="btn btn-outline-primary-ai"
+                        (click)="editUser(user.id!)"
+                        title="Edit">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button 
+                          class="btn btn-outline-info-ai"
+                        (click)="viewUser(user.id!)"
+                        title="View">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button 
+                          class="btn btn-outline-warning-ai"
+                        (click)="user.isActive ? deactivateUser(user.id!) : activateUser(user.id!)"
+                        [title]="user.isActive ? 'Deactivate' : 'Activate'">
+                        <i class="bi" [class]="user.isActive ? 'bi-person-x' : 'bi-person-check'"></i>
+                      </button>
+                      <button 
+                          class="btn btn-outline-danger-ai"
+                        (click)="deleteUser(user.id!)"
+                        title="Delete">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="users.length === 0">
+                  <td colspan="8" class="text-center text-muted">
+                      <i class="bi bi-search me-2"></i>
+                    No users found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- User Count -->
+            <div class="user-count">
+              <i class="bi bi-people me-2"></i>
+            Total Users: {{ users.length }}
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

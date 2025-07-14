@@ -1,0 +1,99 @@
+<div class="login-container">
+  <div class="main-card">
+    <div class="card-header">
+      <div class="login-icon">
+        <i class="bi bi-cpu-fill"></i>
+      </div>
+      <h4>AI Central Login</h4>
+        </div>
+        <div class="card-body">
+      
+      <!-- Error Message -->
+      <div class="alert-ai alert-danger-ai" *ngIf="errorMessage">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Success Message -->
+      <div class="alert-ai alert-success-ai" *ngIf="successMessage">
+        <i class="bi bi-check-circle me-2"></i>
+        {{ successMessage }}
+      </div>
+
+      <!-- Info Message -->
+      <div class="alert-ai alert-info-ai" *ngIf="infoMessage">
+        <i class="bi bi-info-circle me-2"></i>
+        {{ infoMessage }}
+      </div>
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        
+        <div class="form-group">
+          <label for="usernameOrEmail" class="form-label">
+            <i class="bi bi-person me-2"></i>
+            Username or Email
+          </label>
+          <input 
+            type="text" 
+            class="form-control-ai" 
+            id="usernameOrEmail"
+            formControlName="usernameOrEmail"
+            placeholder="Enter your username or email"
+            [class.is-invalid]="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched">
+          <div class="invalid-feedback" *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched">
+            {{ getErrorMessage('usernameOrEmail') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <i class="bi bi-shield-lock me-2"></i>
+            Password
+          </label>
+          <input 
+            type="password" 
+            class="form-control-ai" 
+            id="password"
+            formControlName="password"
+            placeholder="Enter your password"
+            [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            {{ getErrorMessage('password') }}
+          </div>
+        </div>
+
+        <div class="form-actions">
+              <button 
+                type="submit" 
+            class="btn-primary-ai"
+                [class.loading]="loading"
+                [disabled]="loginForm.invalid || loading">
+            <span class="spinner-border spinner-border-sm spinner-ai me-2" *ngIf="loading"></span>
+            {{ loading ? 'Authenticating...' : 'Login to AI Central' }}
+              </button>
+            </div>
+
+        <div class="text-center mt-4">
+          <p class="text-muted mb-2">
+            <i class="bi bi-question-circle me-2"></i>
+            Don't have an account?
+          </p>
+          <a routerLink="/register" class="link-ai">
+            <i class="bi bi-person-plus me-2"></i>
+            Create AI Account
+          </a>
+          </div>
+
+        <div class="text-center mt-3">
+          <a routerLink="/forget-password" class="link-ai">
+            <i class="bi bi-key me-2"></i>
+            Forgot Password?
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div> 

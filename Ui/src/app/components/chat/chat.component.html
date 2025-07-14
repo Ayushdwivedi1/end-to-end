@@ -1,0 +1,117 @@
+<div class="chat-container">
+  <!-- Chat Header -->
+  <div class="chat-header">
+    <div class="chat-header-content">
+      <div class="ai-avatar">
+        <i class="bi bi-robot"></i>
+      </div>
+      <div class="chat-info">
+        <h3>AI Assistant</h3>
+        <p class="status">
+          <span class="status-dot"></span>
+          Online
+        </p>
+      </div>
+      <div class="chat-actions">
+        <button class="btn btn-speak" (click)="toggleSpeech()" title="Speak Last AI Message">
+          <i class="bi" [class.bi-volume-up]="!isSpeaking" [class.bi-volume-mute]="isSpeaking"></i>
+        </button>
+        <button class="btn btn-clear" (click)="clearChat()" title="Clear Chat">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Messages -->
+  <div class="chat-messages" #chatContainer>
+    <div class="messages-container">
+      <div 
+        *ngFor="let message of messages" 
+        class="message-wrapper"
+        [ngClass]="message.sender === 'user' ? 'user-message' : 'ai-message'"
+      >
+        <div class="message">
+          <div class="message-avatar" *ngIf="message.sender === 'ai'">
+            <i class="bi bi-robot"></i>
+          </div>
+          <div class="message-content">
+            <div class="message-text">{{ message.text }}</div>
+            <div class="message-time">
+              {{ message.timestamp | date:'shortTime' }}
+            </div>
+            <!-- Feedback buttons for AI messages -->
+            <div class="message-feedback" *ngIf="message.sender === 'ai' && message.aiResponseId">
+              <button class="btn-feedback btn-thumbs-up" (click)="submitFeedback(message.aiResponseId!, message.conversationId!, 5, 'Great response!')" title="Good response">
+                <i class="bi bi-hand-thumbs-up"></i>
+              </button>
+              <button class="btn-feedback btn-thumbs-down" (click)="submitFeedback(message.aiResponseId!, message.conversationId!, 1, 'Could be better')" title="Poor response">
+                <i class="bi bi-hand-thumbs-down"></i>
+              </button>
+            </div>
+          </div>
+          <div class="message-avatar user-avatar" *ngIf="message.sender === 'user'">
+            <i class="bi bi-person"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Message -->
+      <div class="message-wrapper ai-message" *ngFor="let message of messages">
+        <div class="message" *ngIf="message.isLoading">
+          <div class="message-avatar">
+            <i class="bi bi-robot"></i>
+          </div>
+          <div class="message-content">
+            <div class="loading-message">
+              <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="loading-text">AI is thinking...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Input -->
+  <div class="chat-input-container">
+    <div class="chat-input-wrapper">
+      <div class="input-group">
+        <textarea
+          #messageInput
+          class="form-control chat-input"
+          placeholder="Type your message here..."
+          [(ngModel)]="newMessage"
+          (keypress)="onKeyPress($event)"
+          rows="1"
+          maxlength="500"
+        ></textarea>
+        <button 
+          class="btn btn-mic" 
+          (click)="isListening ? stopListening() : startListening()"
+          [class.listening]="isListening"
+          title="Voice Input"
+        >
+          <i class="bi" [class.bi-mic]="!isListening" [class.bi-mic-mute]="isListening"></i>
+        </button>
+        <button 
+          class="btn btn-send" 
+          (click)="sendMessage()"
+          [disabled]="!newMessage.trim() || isTyping || isLoading"
+          [class.loading]="isLoading"
+        >
+          <i class="bi" [class.bi-send]="!isLoading" [class.bi-hourglass-split]="isLoading"></i>
+        </button>
+      </div>
+      <div class="input-footer">
+        <small class="text-muted">
+          Press Enter to send, Shift+Enter for new line
+        </small>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,158 @@
+<div class="register-container">
+  <div class="main-card">
+    <div class="card-header">
+      <div class="register-icon">
+        <i class="bi bi-robot"></i>
+      </div>
+      <h4>Create AI Account</h4>
+        </div>
+        <div class="card-body">
+      
+      <!-- Error Message -->
+      <div class="alert-ai alert-danger-ai" *ngIf="errorMessage">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ errorMessage }}
+              </div>
+
+      <!-- Success Message -->
+      <div class="alert-ai alert-success-ai" *ngIf="successMessage">
+        <i class="bi bi-check-circle me-2"></i>
+        {{ successMessage }}
+            </div>
+
+      <!-- Register Form -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="firstName" class="form-label">
+              <i class="bi bi-person me-2"></i>
+              First Name
+            </label>
+            <input 
+              type="text" 
+              class="form-control-ai" 
+              id="firstName"
+              formControlName="firstName"
+              placeholder="Enter first name"
+              [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+            <div class="invalid-feedback" *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+              {{ getErrorMessage('firstName') }}
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="lastName" class="form-label">
+              <i class="bi bi-person me-2"></i>
+              Last Name
+            </label>
+            <input 
+              type="text" 
+              class="form-control-ai" 
+              id="lastName"
+              formControlName="lastName"
+              placeholder="Enter last name"
+              [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+            <div class="invalid-feedback" *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+              {{ getErrorMessage('lastName') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="username" class="form-label">
+            <i class="bi bi-person-badge me-2"></i>
+            Username
+          </label>
+          <input 
+            type="text" 
+            class="form-control-ai" 
+            id="username"
+            formControlName="username"
+            placeholder="Enter username"
+            [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+          <div class="invalid-feedback" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+            {{ getErrorMessage('username') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">
+            <i class="bi bi-envelope me-2"></i>
+            Email
+          </label>
+          <input 
+            type="email" 
+            class="form-control-ai" 
+            id="email"
+            formControlName="email"
+            placeholder="Enter email address"
+            [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          <div class="invalid-feedback" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            {{ getErrorMessage('email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <i class="bi bi-shield-lock me-2"></i>
+            Password
+          </label>
+          <input 
+            type="password" 
+            class="form-control-ai" 
+            id="password"
+            formControlName="password"
+            placeholder="Enter password"
+            [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            {{ getErrorMessage('password') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">
+            <i class="bi bi-shield-check me-2"></i>
+            Confirm Password
+          </label>
+          <input 
+            type="password" 
+            class="form-control-ai" 
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder="Confirm password"
+            [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+          <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+            {{ getErrorMessage('confirmPassword') }}
+          </div>
+          <div class="invalid-feedback" *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
+            Passwords do not match
+          </div>
+        </div>
+
+        <div class="form-actions">
+              <button 
+                type="submit" 
+            class="btn-success-ai"
+                [disabled]="registerForm.invalid || loading">
+            <span class="spinner-border spinner-border-sm spinner-ai me-2" *ngIf="loading"></span>
+            {{ loading ? 'Creating AI Account...' : 'Create AI Account' }}
+              </button>
+            </div>
+
+        <div class="text-center mt-4">
+          <p class="text-muted mb-2">
+            <i class="bi bi-question-circle me-2"></i>
+            Already have an account?
+          </p>
+          <a routerLink="/login" class="link-ai">
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+            Login to AI Central
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div> 

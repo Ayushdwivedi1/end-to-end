@@ -1,0 +1,151 @@
+<div class="ai-container">
+  <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="ai-card">
+        <div class="card-header-ai d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">
+            <i class="bi bi-pencil-square me-2"></i>
+            AI Smart User Edit
+          </h4>
+          <button class="btn-ai-outline" (click)="onCancel()">
+            <i class="bi bi-arrow-left"></i> Back to Users
+          </button>
+        </div>
+        <div class="card-body">
+          
+          <!-- Error Message -->
+          <div class="alert-ai alert-danger-ai" *ngIf="errorMessage">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+          </div>
+
+          <!-- Success Message -->
+          <div class="alert-ai alert-success-ai" *ngIf="successMessage">
+            <i class="bi bi-check-circle me-2"></i>
+            {{ successMessage }}
+          </div>
+
+          <!-- Loading Spinner -->
+          <div class="text-center" *ngIf="loading && !errorMessage">
+            <div class="spinner-border spinner-ai" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Edit Form -->
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="!loading || errorMessage">
+            
+            <div class="form-row">
+              <!-- First Name -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="firstName" class="form-label">
+                    <i class="bi bi-person me-2"></i>First Name *
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control-ai" 
+                    id="firstName"
+                    formControlName="firstName"
+                    [class.is-invalid]="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched"
+                    placeholder="Enter first name">
+                  <div class="invalid-feedback" *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+                    {{ getErrorMessage('firstName') }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="lastName" class="form-label">
+                    <i class="bi bi-person me-2"></i>Last Name *
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control-ai" 
+                    id="lastName"
+                    formControlName="lastName"
+                    [class.is-invalid]="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched"
+                    placeholder="Enter last name">
+                  <div class="invalid-feedback" *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+                    {{ getErrorMessage('lastName') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                <i class="bi bi-envelope me-2"></i>Email *
+              </label>
+              <input 
+                type="email" 
+                class="form-control-ai" 
+                id="email"
+                formControlName="email"
+                [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+                placeholder="Enter email address">
+              <div class="invalid-feedback" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                {{ getErrorMessage('email') }}
+              </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+              <label for="phoneNumber" class="form-label">
+                <i class="bi bi-telephone me-2"></i>Phone Number *
+              </label>
+              <input 
+                type="tel" 
+                class="form-control-ai" 
+                id="phoneNumber"
+                formControlName="phoneNumber"
+                [class.is-invalid]="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched"
+                placeholder="Enter phone number (10-15 digits)">
+              <div class="invalid-feedback" *ngIf="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched">
+                {{ getErrorMessage('phoneNumber') }}
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+              <label for="address" class="form-label">
+                <i class="bi bi-geo-alt me-2"></i>Address
+              </label>
+              <textarea 
+                class="form-control-ai" 
+                id="address"
+                formControlName="address"
+                rows="3"
+                placeholder="Enter address"></textarea>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions d-flex gap-2">
+              <button 
+                type="submit" 
+                class="btn-success-ai"
+                [disabled]="userForm.invalid || loading">
+                <span class="spinner-border spinner-border-sm spinner-ai me-2" *ngIf="loading"></span>
+                {{ loading ? 'Updating...' : 'Update User' }}
+              </button>
+              <button 
+                type="button" 
+                class="btn-ai-outline"
+                (click)="onCancel()"
+                [disabled]="loading">
+                Cancel
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div> 
